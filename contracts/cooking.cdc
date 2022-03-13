@@ -29,6 +29,9 @@ access(all) contract HelloWorld {
             return s1.concat(s2)
         }
 
+        // `ccFun` is a closure, and the vars(like `s_in`) are like member vars of the closure(like class), 
+        // which will be maintained along with the holder of the `ccFun` instance.
+        // That is, you can treat `ccFun` instance as `class` objects.
         fun ccFun(_ s: String): ((): String){
             // `s_in` is re-created and maintained every time `ccFun(ss)` is called and assigned.
             var s_in: String = hs;
