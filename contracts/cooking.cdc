@@ -30,6 +30,7 @@ access(all) contract HelloWorld {
         }
 
         fun ccFun(_ s: String): ((): String){
+            // `s_in` is re-created and maintained every time `ccFun(ss)` is called and assigned.
             var s_in: String = hs;
             return fun(): String{
                 s_in = s_in.concat(s);
@@ -40,6 +41,11 @@ access(all) contract HelloWorld {
         //return ctt(hs, hc).slice(from: 0, upTo: 20)
         let ctt2 = ccFun(hc);
         ctt2();
-        return ctt2()
+        ctt2();
+
+        // the `s_in` in `ccFun` is re-created and maintained with `ctt3`
+        let ctt3 = ccFun(hs);
+        ctt3();
+        return ctt3()
     }
 }
