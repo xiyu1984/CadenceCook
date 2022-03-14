@@ -11,46 +11,7 @@ access(all) contract HelloWorld {
     // User defined data struct
     pub struct MyData{
         pub var id: Int64 
-        // 🚧 Status: Field getters and setters are not implemented yet.
-        // {
-        //     get {
-        //         if (self.id < 0){
-        //             return 0
-        //         }
-        //         return self.id
-        //     }
-
-        //     set(newId) {
-        //         if newId < 0{
-        //             self.id = 0;
-        //         }
-        //         self.id = newId;
-        //     }
-        // }
-
         pub var name: String 
-        // {
-        //     get {
-        //         if (self.name.length < 1) {
-        //             return "hello world!"
-        //         }
-        //         return self.name
-        //     }
-
-        //     set(newName) {
-        //         if (newName.length > 20){
-        //             self.name = newName.slice(from: 0, upTo: 20);
-        //         }
-        //         self.name = newName;
-        //     }
-        // }
-
-        // 🚧 Status: Synthetic fields are not implemented yet.
-        // pub synthetic allInfo: String {
-        //     get {
-        //         return self.name.concat(self.id.toString())
-        //     }
-        // }
 
         init(ID: Int64, Name: String){
             self.id = ID;
@@ -62,15 +23,47 @@ access(all) contract HelloWorld {
         }
     }
 
+    pub resource MyRes {
+        pub(set) var name: String
+        pub(set) var info: String
+
+        init(Name: String, Info: String){
+            self.name = Name
+            self.info = Info
+        }
+
+        // reload of init is not supported yet!
+        //init(){
+        //    self.name = "";
+        //    self.info = "";
+        //}
+
+        pub fun getAllInfo(): String{
+            return self.name.concat(self.info)
+        }
+
+        pub fun setResInfo(Info: String){
+            self.info = Info;
+        }
+    }
+
     // Declare a public field of type String.
     //
     // All fields must be initialized in the init() function.
     access(all) let greeting: String
 
+    // map resource
+    access(all) var dmap: @{Int32: MyRes};
+
     // The init() function is required if the contract contains any fields.
     init() {
-        self.greeting = "Hello, World!"
+        self.greeting = "Hello, World!";
+        self.dmap <- {}
     }
+
+    //destroy(){
+    //    destroy self.dmap
+    //}
 
     // Public function that returns our friendly greeting!
     access(all) fun hello(): String {
@@ -117,5 +110,39 @@ access(all) contract HelloWorld {
         let mdata: MyData? = MyData(ID: 73, Name: "Hello");
 
         return mdata!.getAllInfo()
+    }
+
+    access(all) fun visitMyResMap(): String{
+        var res: @MyRes <- create MyRes(Name: "1", Info: "2");
+        res.name = "hello";
+        let s = res.getAllInfo();
+        destroy  res
+        return s
+    }
+
+    access(all) fun addToMemberRes(Key: Int32, outName: String, outInfo: String){
+        let res <- create MyRes(Name: outName, Info: outInfo);
+        let old <- self.dmap.insert(key: Key, <-res);
+        destroy  old
+    }
+
+    access(all) fun getMemberRes(Key: Int32) : String {
+        //var cur_res: @MyRes? <- create MyRes(Name: "", Info: "")
+        //cur_res <-> self.dmap[Key]
+        //let s = cur_res?.getAllInfo();
+        //cur_res <-> self.dmap[Key];
+        //destroy cur_res
+        //return s ?? "Key not exist!"
+        
+        // The same as above
+        return self.dmap[Key]?.getAllInfo() ?? "Key not exist"
+    }
+
+    access(all) fun setMemberResInfo(Key: Int32, outInfo: String) {
+        // this works, but there's no exception if `Key` does not exist!
+        self.dmap[Key]?.setResInfo(Info: outInfo);
+        
+        // this dose't work because "cannot assign to optional chaining expression"
+        //self.dmap[Key]?.name = ""
     }
 }
