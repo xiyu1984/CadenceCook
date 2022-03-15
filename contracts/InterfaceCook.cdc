@@ -67,6 +67,10 @@ access(all) contract InterfaceCook {
                 panic("cannot deposit token which is not an `Cerrect` token")
             }
         }
+
+        access(contract) fun getInfo(): String {
+            return self.id.toString().concat(self.amount.toString())
+        }
     }
 
     access(contract) let myCerrect: @Cerrect;
@@ -90,5 +94,32 @@ access(all) contract InterfaceCook {
 
     pub fun getCerrect() : Int64{
         return self.myCerrect.amount
+    }
+
+    pub fun getCerrectInfo() : String{
+        // `{BaseIn}` it the restriction to the type of outCerrect
+        let outCerrect: @Cerrect{BaseIn} <- create Cerrect(ID: 666, Amount: 999);
+        // So the line below cannot be compiled
+        // let s = outCerrect.getInfo();
+        
+        let outCerrect2: @Cerrect<- outCerrect;
+
+        let outcRef: &Cerrect = &outCerrect2 as &Cerrect
+        let outcRef2: &Cerrect = &outCerrect2 as &Cerrect
+        let outcRef3: &Cerrect = &outCerrect2 as &Cerrect
+
+        let s = outcRef.getInfo();
+
+        // the line below here will brings run-time error! But why not the compiler solves it?
+        // destroy outCerrect2
+
+        // the lines below works, it's maybe a weakness comparing to Rust
+        var s1 = outcRef.getInfo();
+        var s2 = outcRef2.getInfo();
+        var s3 = outcRef3.getInfo();
+        s2 = outcRef2.getInfo();
+
+        destroy outCerrect2
+        return s
     }
 }
