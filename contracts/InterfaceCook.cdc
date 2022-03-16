@@ -1,4 +1,4 @@
-
+import HelloWorld from 0x01
 
 access(all) contract InterfaceCook {
 
@@ -121,5 +121,16 @@ access(all) contract InterfaceCook {
 
         destroy outCerrect2
         return s
+    }
+
+    pub fun test_cross_contract(): String{
+        return HelloWorld.hello()
+    }
+
+    pub fun test_account_storage(): String{
+        let s_path: StoragePath = /storage/oneCerrect;
+        self.account.save(<- create Cerrect(ID: 100, Amount: 99), to: s_path);
+        let obj_type = self.account.borrow<&Cerrect>(from: s_path);
+        return obj_type?.getInfo() ?? "no resources stored!"
     }
 }
