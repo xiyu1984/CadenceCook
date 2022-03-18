@@ -1,10 +1,12 @@
-import HelloWorld from 0x01
-
 transaction {
 
-  prepare(acct: AuthAccount) {}
+  let name: String;
+
+  prepare(acct: AuthAccount) {
+    self.name = acct.address.toString();
+  }
 
   execute {
-    log(HelloWorld.visitMyResMap())
+    log(self.name);
   }
 }

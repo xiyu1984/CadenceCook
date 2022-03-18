@@ -68,7 +68,7 @@ access(all) contract InterfaceCook {
             }
         }
 
-        access(contract) fun getInfo(): String {
+        pub fun getInfo(): String {
             return self.id.toString().concat(self.amount.toString())
         }
     }
@@ -77,6 +77,10 @@ access(all) contract InterfaceCook {
 
     init(){
         self.myCerrect <- create Cerrect(ID: 1, Amount: 66);
+    }
+
+    pub fun getAddress(): Address{
+        return self.account.address
     }
 
     pub fun testCerrect(lastWD: Int64) {
@@ -134,10 +138,15 @@ access(all) contract InterfaceCook {
         return obj_type?.getInfo() ?? "no resources stored!"
     }
 
+    pub fun test_clear_storate(){
+
+    }
+
     pub fun test_account_link(): String{
         let s_path: StoragePath = /storage/oneCerrect;
-        self.account.save(<- create Cerrect(ID: 256, Amount: 1024), to: s_path);
-        let pubKey = getAccount(self.account.address);
+        // self.account.save(<- create Cerrect(ID: 256, Amount: 1024), to: s_path);
+        //let pubKey = getAccount(self.account.address);
+        let pubKey = getAccount(0x02);
         self.account.link<&Cerrect>(/public/oneCerrectLink, target: s_path);
 
         let cerCap = pubKey.getCapability<&Cerrect>(/public/oneCerrectLink);
