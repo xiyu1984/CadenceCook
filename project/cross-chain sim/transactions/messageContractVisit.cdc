@@ -1,11 +1,11 @@
-import HelloWorld from 0x04
+import MessageVisitor from 0x04
 
 transaction {
   prepare(acct: AuthAccount) {}
 
   execute {
-    HelloWorld.createMessage();
-    HelloWorld.addMessage(inputMsg: "Glory!");
-    log(HelloWorld.getMessage(at: 0));
+    MessageVisitor.createMessage();
+    MessageVisitor.addMessage(inputMsg: "Glory!");
+    log(MessageVisitor.sendMessage(at: 0));
   }
 }

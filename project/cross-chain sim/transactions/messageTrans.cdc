@@ -17,6 +17,6 @@ transaction {
     msgCap.borrow()!.addMsg(msgInfo: "Hello world!")
 
     log(self.signer.address)
-    log(MessageHolder.getMessage(addr: self.signer.address, at: 0))
+    log(MessageHolder.sendMessage(addr: self.signer.address, at: 0))
   }
 }

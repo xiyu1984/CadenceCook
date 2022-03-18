@@ -1,6 +1,6 @@
 import MessageHolder from 0x01
 
-access(all) contract HelloWorld {
+access(all) contract MessageVisitor {
     pub fun createMessage(){
       self.account.save(<-MessageHolder.createMessage(), to: /storage/myMessage);
       self.account.link<&MessageHolder.Message>(/public/messageQueue, target: /storage/myMessage);
@@ -12,7 +12,7 @@ access(all) contract HelloWorld {
       msgCap.borrow()!.addMsg(msgInfo: "Glorys!")
     }
 
-    pub fun getMessage(at: Int): String{
-      return MessageHolder.getMessage(addr: self.account.address, at: 0)
+    pub fun sendMessage(at: Int): String{
+      return MessageHolder.sendMessage(addr: self.account.address, at: 0)
     }
 }
