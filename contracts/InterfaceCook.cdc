@@ -133,4 +133,16 @@ access(all) contract InterfaceCook {
         let obj_type = self.account.borrow<&Cerrect>(from: s_path);
         return obj_type?.getInfo() ?? "no resources stored!"
     }
+
+    pub fun test_account_link(): String{
+        let s_path: StoragePath = /storage/oneCerrect;
+        self.account.save(<- create Cerrect(ID: 256, Amount: 1024), to: s_path);
+        let pubKey = getAccount(self.account.address);
+        self.account.link<&Cerrect>(/public/oneCerrectLink, target: s_path);
+
+        let cerCap = pubKey.getCapability<&Cerrect>(/public/oneCerrectLink);
+        let cerRef = cerCap.borrow()!;
+
+        return cerRef.getInfo()
+    }
 }
