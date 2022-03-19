@@ -1,14 +1,22 @@
 access(all) contract MessageHolder {
 
-    pub resource Message{
+    // Interface is used for access control.
+    pub resource interface BaseMsg{
+        pub msg: [String];
+
+        pub fun getFirstMsg(): String;
+    }
+
+    // No one else can access `addMsg` if only publishes the link with `BaseMsg`. See `messageContractVisit` and `messageTrans` for detail
+    pub resource Message: BaseMsg{
         pub let msg: [String];
 
         init(){
             self.msg = [];
         }
 
-        pub fun addMsg(msgInfo: String){
-            self.msg.append(msgInfo);
+        pub fun addMsg(inputMsg: String){
+            self.msg.append(inputMsg);
 
             if (self.msg.length > 10){
                 self.msg.removeFirst();
@@ -34,7 +42,7 @@ access(all) contract MessageHolder {
     // This is exactly a classic case for `resource-oriented` programming
     pub fun sendMessage(addr: Address, at: Int): String{
         let pubKey = getAccount(addr);
-        let msgCap = pubKey.getCapability<&Message>(/public/messageQueue);
+        let msgCap = pubKey.getCapability<&{BaseMsg}>(/public/messageQueue);
         let msgRef = msgCap.borrow()!;
 
         return msgRef.msg[at]
