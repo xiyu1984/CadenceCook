@@ -32,9 +32,9 @@ transaction {
     // Invalid below
     // msgCap.borrow()!.addMsg(msgInfo: "Hello world!")
 
-    log(MessageHolder.sendMessage(addr: 0x04, at: 2))
+    log(MessageHolder.sendMessage(addr: 0x04, at: 0))
 
     // The same as above (`let pubKey4...` to `log(MessageHolder.sendMessage(`)
-    log(MessageVisitor.sendMessage(at: 2))
+    log(MessageVisitor.sendMessage(at: 0))
   }
 }

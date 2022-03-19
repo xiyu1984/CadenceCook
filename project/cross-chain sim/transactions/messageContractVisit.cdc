@@ -17,9 +17,9 @@ transaction {
     
     // only account of address 0x04 is valid  
     let msgRef = self.signer.borrow<&MessageHolder.Message>(from: /storage/myMessage)
-    msgRef!.addMsg(inputMsg: "Hello2 ".concat(self.signer.address.toString()))
+    msgRef!.addMsg(inputMsg: "Hello ".concat(self.signer.address.toString()))
     log(msgRef!.getFirstMsg())
 
-    log(MessageVisitor.sendMessage(at: 2));
+    log(MessageVisitor.sendMessage(at: 0));
   }
 }
