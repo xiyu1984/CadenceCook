@@ -145,4 +145,8 @@ access(all) contract HelloWorld {
         // this dose't work because "cannot assign to optional chaining expression"
         //self.dmap[Key]?.name = ""
     }
+
+    pub fun testUnsafeRandom(): UInt64{
+        return unsafaRandom()
+    }
 }
