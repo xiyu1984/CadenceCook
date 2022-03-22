@@ -146,7 +146,10 @@ access(all) contract HelloWorld {
         //self.dmap[Key]?.name = ""
     }
 
+    pub event rResult(res: UInt64)
+
     pub fun testUnsafeRandom(): UInt64{
+        emit rResult(res: unsafeRandom())
         return unsafeRandom()
     }
 }
