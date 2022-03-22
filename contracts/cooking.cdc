@@ -147,6 +147,6 @@ access(all) contract HelloWorld {
     }
 
     pub fun testUnsafeRandom(): UInt64{
-        return unsafaRandom()
+        return unsafeRandom()
     }
 }
