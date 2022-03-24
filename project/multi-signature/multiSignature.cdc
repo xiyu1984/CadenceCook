@@ -32,11 +32,11 @@ access(all) contract MultiSignatureFactory{
     pub resource Proposal: ProposalFace{
         priv let name: UInt128;
         priv var t: UInt;
-        priv let singers: [Address]
+        priv let signers: [Address];
 
         access(contract) init(threshole: UInt, oName: UInt128){
             self.t = threshole;
-            self.singers = [];
+            self.signers = [];
             self.name = oName;
         }
 
@@ -45,7 +45,7 @@ access(all) contract MultiSignatureFactory{
         }
 
         pub fun sign(signer: Address){
-            if (!self.singers.containsKey(signer)){
+            if (!self.signers.contains(signer)){
                 panic("Invalid signer address!");
             }
 
