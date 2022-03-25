@@ -7,7 +7,7 @@ transaction {
   execute {
     let myData = tFunType.MyStr();
 
-    let funObj: ((AnyStruct): AnyStruct) = tFunType.testFunc;
+    let funObj: ((AnyStruct): AnyStruct) = tFunType.getPrivFunc();
 
     let sOpt = funObj(data: myData) as? tFunType.MyRst
 
