@@ -152,4 +152,11 @@ access(all) contract HelloWorld {
         emit rResult(res: unsafeRandom())
         return unsafeRandom()
     }
+
+    pub event createEvent(res: String)
+
+    pub fun createMyRes(oName: String, oInfo: String): @MyRes{
+        emit createEvent(res: "Creating `MyRes`: Name: ".concat(oName).concat(". Info: ").concat(oInfo))
+        return <- create MyRes(Name: oName, Info: oInfo)
+    }
 }
