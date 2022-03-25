@@ -17,7 +17,8 @@ transaction {
     if let resRef = capRef{
       log("has something")
 
-      let resFI: auth &AnyResource{tFunType.ReeeesIF}? = resRef as? auth &AnyResource{tFunType.ReeeesIF}
+      //let resFI: auth &AnyResource{tFunType.ReeeesIF}? = resRef as? auth &AnyResource{tFunType.ReeeesIF}
+      let resFI: &AnyResource{tFunType.ReeeesIF}? = resRef as? auth &AnyResource{tFunType.ReeeesIF}
       log(resFI!.funcInRes())
     }
     else{
