@@ -7,7 +7,7 @@ access(all) contract MultiSignatureFactory{
         pub fun isSigned(name: UInt128): Bool;
     }
 
-    pub resource Singer: SignerFace{
+    pub resource Signer: SignerFace{
         priv let proposalName: {UInt128: Bool};
 
         // Created only by contract
@@ -41,7 +41,7 @@ access(all) contract MultiSignatureFactory{
     }
 
     pub struct C_ProposalInfo{
-        pub var handle: ((AnyStruct?): AnyStruct?)?;
+        priv var handle: ((AnyStruct?): AnyStruct?)?;
         pub var inputData: AnyStruct?;
 
         init(){
@@ -82,6 +82,10 @@ access(all) contract MultiSignatureFactory{
             self.name = oName;
 
             self.ppInfo = MultiSignatureFactory.C_ProposalInfo();
+        }
+
+        pub fun getProposalInfo(): MultiSignatureFactory.C_ProposalInfo{
+            return self.ppInfo
         }
 
         // accessed only by AuthAccount and the contract
@@ -129,10 +133,6 @@ access(all) contract MultiSignatureFactory{
         pub fun getName(): UInt128{
             return self.name
         }
-
-        pub fun getProposalInfo(): MultiSignatureFactory.C_ProposalInfo{
-            return self.ppInfo;
-        }
     }
 
     // **
@@ -152,7 +152,7 @@ access(all) contract MultiSignatureFactory{
     }
 
     pub struct R_ProposalInfo{
-        pub var handle: Capability<&{MultiSignRscEXEC}>;
+        priv var handle: Capability<&{MultiSignRscEXEC}>;
         pub var inputData: AnyStruct?;
 
         init(handle: Capability<&{MultiSignRscEXEC}>, inputs: AnyStruct?){
@@ -237,16 +237,36 @@ access(all) contract MultiSignatureFactory{
     // *********************************************
     // Functions in `MultiSignatureFactory` contract
     // *********************************************
+    priv var c_pp_id: UInt128;
+    priv var r_pp_id: UInt128;
+
+    init(){
+        self.c_pp_id = 0;
+        self.r_pp_id = 0;
+    }
 
     // **
     // For `Signer`
     // **
+    pub fun createSigner(): @Signer{
+        return <- create Signer()
+    }
 
     // **
     // For `C_Proposal`
     // **
+    pub fun createC_Porposal(sign_threshole: Int): @C_Proposal{
+        let id = self.c_pp_id;
+        self.c_pp_id = self.c_pp_id + 1;
+        return <-create C_Proposal(threshole: sign_threshole, oName: id)
+    }
 
     // **
     // For `R_Proposal`
     // **
+    pub fun createR_Proposal(sign_threshole: Int): @R_Proposal{
+        let id = self.r_pp_id;
+        self.r_pp_id = self.r_pp_id + 1;
+        return <-create R_Proposal(threshole: sign_threshole, oName: id)
+    }
 }

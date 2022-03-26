@@ -17,9 +17,16 @@ transaction {
     if let resRef = capRef{
       log("has something")
 
-      //let resFI: auth &AnyResource{tFunType.ReeeesIF}? = resRef as? auth &AnyResource{tFunType.ReeeesIF}
+      // let resFI: auth &AnyResource{tFunType.ReeeesIF}? = resRef as? auth &AnyResource{tFunType.ReeeesIF}
       let resFI: &AnyResource{tFunType.ReeeesIF}? = resRef as? auth &AnyResource{tFunType.ReeeesIF}
       log(resFI!.funcInRes())
+
+      // This works, although the link is just `<auth &AnyResource{ReeeesIF}>`
+      // `auth` can upcast and downcast completely freely! 
+      // That is, `auth` lost the "interface type control" of the access to capability
+      let resFI2: &tFunType.Reeees? = resRef as? auth &tFunType.Reeees;
+      log(resFI2!.funcInChild())
+
     }
     else{
       log("unknow")

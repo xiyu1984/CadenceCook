@@ -36,6 +36,10 @@ access(all) contract tFunType{
         pub fun funcInRes(): String{
             return "Hello resource!"
         }
+
+        pub fun funcInChild(): String{
+            return "Hello Child!"
+        }
     }
 
     // `priv` fun cannot be accessed directly, but can be returned ad `Function types`
@@ -54,6 +58,7 @@ access(all) contract tFunType{
 
     pub fun testReeeesFI(){
         self.account.save(<- create Reeees(), to: /storage/reeees);
+        // `auth` can upcast and downcast completely freely! 
         self.account.link<auth &AnyResource{ReeeesIF}>(/private/reeees, target: /storage/reeees);
     }
 }
