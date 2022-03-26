@@ -29,18 +29,18 @@ access(all) contract MultiSignatureFactory{
     }
 
     // **
-    // Proposal resource, users can bind an contract operation to it
+    // Proposal resource, users can bind an **contract** operation to it
     // And execute is after multi-signed
-    // 
+    // It's not so much neccessary for contracts
     // **
 
-    pub resource interface ProposalFace{
+    pub resource interface C_ProposalFace{
         pub fun sign(signer: Address);
         pub fun getName(): UInt128;
-        pub fun getProposalInfo(): MultiSignatureFactory.ProposalInfo;
+        pub fun getProposalInfo(): MultiSignatureFactory.C_ProposalInfo;
     }
 
-    pub struct ProposalInfo{
+    pub struct C_ProposalInfo{
         pub var handle: ((AnyStruct?): AnyStruct?)?;
         pub var inputData: AnyStruct?;
 
@@ -66,13 +66,13 @@ access(all) contract MultiSignatureFactory{
         }
     }
 
-    pub resource Proposal: ProposalFace{
+    pub resource C_Proposal: C_ProposalFace{
         priv let name: UInt128;
         priv let t: Int;
         priv let signers: [Address];
         priv let signedAccount: [Address];
 
-        priv let ppInfo: ProposalInfo;
+        priv let ppInfo: C_ProposalInfo;
 
         // Created only by contract
         access(contract) init(threshole: Int, oName: UInt128){
@@ -81,7 +81,7 @@ access(all) contract MultiSignatureFactory{
             self.signedAccount = [];
             self.name = oName;
 
-            self.ppInfo = MultiSignatureFactory.ProposalInfo();
+            self.ppInfo = MultiSignatureFactory.C_ProposalInfo();
         }
 
         // accessed only by AuthAccount and the contract
@@ -130,9 +130,123 @@ access(all) contract MultiSignatureFactory{
             return self.name
         }
 
-        pub fun getProposalInfo(): MultiSignatureFactory.ProposalInfo{
+        pub fun getProposalInfo(): MultiSignatureFactory.C_ProposalInfo{
             return self.ppInfo;
         }
     }
 
+    // **
+    // Proposal resource, users can bind an **resource** operation to it
+    // And execute is after multi-signed
+    // **
+
+    pub resource interface R_ProposalFace{
+        pub fun sign(signer: Address);
+        pub fun getName(): UInt128;
+        pub fun getProposalInfo(): MultiSignatureFactory.R_ProposalInfo;
+    }
+
+    // operations need multi-sign shall implement this interface
+    pub resource interface MultiSignRscEXEC{
+        access(contract) fun multiSignRscEXEC(inputs: AnyStruct?): AnyStruct?;
+    }
+
+    pub struct R_ProposalInfo{
+        pub var handle: Capability<&{MultiSignRscEXEC}>;
+        pub var inputData: AnyStruct?;
+
+        init(handle: Capability<&{MultiSignRscEXEC}>, inputs: AnyStruct?){
+            self.handle = handle;
+            self.inputData = inputs;
+        }
+
+        access(contract) fun doExecute(): AnyStruct?{
+            let execRef = self.handle.borrow();
+            return execRef!.multiSignRscEXEC(inputs: self.inputData)
+        }
+    }
+
+    pub resource R_Proposal: R_ProposalFace{
+        priv let name: UInt128;
+        priv let t: Int;
+        priv let signers: [Address];
+        priv let signedAccount: [Address];
+
+        priv var ppInfo: R_ProposalInfo?;
+
+        // Created only by contract
+        access(contract) init(threshole: Int, oName: UInt128){
+            self.t = threshole;
+            self.signers = [];
+            self.signedAccount = [];
+            self.name = oName;
+            self.ppInfo = nil;
+        }
+
+        // accessed only by AuthAccount and the contract
+        pub fun addSingers(signers: [Address]){
+            self.signers.appendAll(signers);
+        }
+
+        pub fun setExecution(resEXECinfo: R_ProposalInfo){
+            self.ppInfo = resEXECinfo;
+        }
+
+        pub fun doExecute(): AnyStruct?{
+            if (self.verify()){
+                return self.ppInfo!.doExecute();
+            }
+            else{
+                return panic("Unauthorized!");
+            }
+        }
+
+        priv fun verify(): Bool{
+            if self.signedAccount.length >= self.t{
+                return true
+            }
+            else{
+                return false
+            }
+        }
+
+        // interface of `ProposalFace`
+        pub fun sign(signer: Address){
+            if (!self.signers.contains(signer)){
+                panic("Invalid signer address!");
+            }
+
+            let pubAcct = getAccount(signer);
+            let signerLink = pubAcct.getCapability<&{SignerFace}>(/public/signerLink);
+            if let signerRef = signerLink.borrow(){
+                if signerRef.isSigned(name: self.name){
+                    self.signedAccount.append(signer);
+                }
+            }
+        }
+
+        pub fun getName(): UInt128{
+            return self.name
+        }
+
+        pub fun getProposalInfo(): MultiSignatureFactory.R_ProposalInfo{
+            return self.ppInfo!;
+        }
+    }
+
+    // *********************************************
+    // Functions in `MultiSignatureFactory` contract
+    // *********************************************
+
+    // **
+    // For `Signer`
+    // **
+
+    // **
+    // For `C_Proposal`
+    // **
+
+    // **
+    // For `R_Proposal`
+    // **
 }
