@@ -21,6 +21,10 @@ transaction {
       let resFI: &AnyResource{tFunType.ReeeesIF}? = resRef as? auth &AnyResource{tFunType.ReeeesIF}
       log(resFI!.funcInRes())
 
+      // invalid below because of `access(contract)`
+      // log(resFI!.funcInContract())
+      log(tFunType.visitCAccess(resRef:resFI!))
+
       // This works, although the link is just `<auth &AnyResource{ReeeesIF}>`
       // `auth` can upcast and downcast completely freely! 
       // That is, `auth` lost the "interface type control" of the access to capability

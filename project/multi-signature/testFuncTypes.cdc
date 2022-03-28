@@ -30,6 +30,7 @@ access(all) contract tFunType{
 
     pub resource interface ReeeesIF{
         pub fun funcInRes(): String;
+        access(contract) fun funcInContract(): String;
     }
 
     pub resource Reeees: ReeeesIF{
@@ -39,6 +40,10 @@ access(all) contract tFunType{
 
         pub fun funcInChild(): String{
             return "Hello Child!"
+        }
+
+        access(contract) fun funcInContract(): String{
+            return "Only called from contract!"
         }
     }
 
@@ -60,5 +65,9 @@ access(all) contract tFunType{
         self.account.save(<- create Reeees(), to: /storage/reeees);
         // `auth` can upcast and downcast completely freely! 
         self.account.link<auth &AnyResource{ReeeesIF}>(/private/reeees, target: /storage/reeees);
+    }
+
+    pub fun visitCAccess(resRef: &{ReeeesIF}): String{
+        return resRef.funcInContract()
     }
 }
