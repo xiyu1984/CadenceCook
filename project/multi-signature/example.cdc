@@ -15,11 +15,11 @@ access(all) contract Example{
         }
 
         access(contract) fun multiSignRscEXEC(inputs: AnyStruct?): AnyStruct?{
-            // if (nil == inputs){
-            //     log("data failed!");
-            // }
+            if (nil == inputs){
+                log("data failed!");
+            }
 
-            // It's important to use `inputs!`, or else the downcast will be failed!
+            // It's important to use `inputs!`, or else the downcast will be failed
             let md: MyData? = inputs! as? MyData;
             return inputs
         }

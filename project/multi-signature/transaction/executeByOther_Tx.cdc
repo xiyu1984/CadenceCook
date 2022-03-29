@@ -14,6 +14,13 @@ transaction{
     }
 
     execute{
-
+        let pubAcct = getAccount(0x03);
+        //let proposalRef = pubAcct.getCapability<&{MultiSignatureFactory.R_ProposalFace}>(/public/proposalFace)
+        let exaResLink = pubAcct.getCapability<&{MultiSignatureFactory.MultiSignRscEXEC}>(/public/ExaMSLink);
+        if let exaResRef = exaResLink.borrow(){
+            let md = Example.MyData();
+            // invalid because of `access(contract)`
+            //exaResRef.multiSignRscEXEC(inputs: md);
+        }
     }
 }

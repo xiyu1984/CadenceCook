@@ -95,7 +95,10 @@ access(all) contract MultiSignatureFactory{
 
         pub fun doExecute(): AnyStruct?{
             if (self.verify()){
-                return self.ppInfo!.doExecute();
+                // clear the proposal after executed once
+                let rst = self.ppInfo!.doExecute();
+                self.ppInfo = nil;
+                return rst;
             }
             else{
                 return panic("Unauthorized!");
@@ -118,6 +121,8 @@ access(all) contract MultiSignatureFactory{
             }
 
             let pubAcct = getAccount(signer);
+            // in this version, every signer are restricted to create link as path: `/public/signerLink`
+            // this will be improved in the next version(the comments below, to be tested in testnet)
             let signerLink = pubAcct.getCapability<&{SignerFace}>(/public/signerLink);
             if let signerRef = signerLink.borrow(){
                 if signerRef.isSigned(name: self.name){
@@ -125,6 +130,22 @@ access(all) contract MultiSignatureFactory{
                 }
             }
         }
+
+        // More flexible version of `sign`, but cannot be used in playground currently 
+        // pub fun sign(signer: Address, link: String){
+        //     if (!self.signers.contains(signer)){
+        //         panic("Invalid signer address!");
+        //     }
+
+        //     let pubAcct = getAccount(signer);
+        //     let linkPath = PublicPath(identifier: link);
+        //     let signerLink = pubAcct.getCapability<&{SignerFace}>(linkPath!);
+        //     if let signerRef = signerLink.borrow(){
+        //         if signerRef.isSigned(name: self.name){
+        //             self.signedAccount.append(signer);
+        //         }
+        //     }
+        // }
 
         pub fun getName(): UInt128{
             return self.name
