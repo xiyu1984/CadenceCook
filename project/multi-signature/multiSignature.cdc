@@ -29,113 +29,6 @@ access(all) contract MultiSignatureFactory{
     }
 
     // **
-    // Proposal resource, users can bind an **contract** operation to it
-    // And execute is after multi-signed
-    // It's not so much neccessary for contracts
-    // **
-
-    pub resource interface C_ProposalFace{
-        pub fun sign(signer: Address);
-        pub fun getName(): UInt128;
-        pub fun getProposalInfo(): MultiSignatureFactory.C_ProposalInfo;
-    }
-
-    pub struct C_ProposalInfo{
-        priv var handle: ((AnyStruct?): AnyStruct?)?;
-        pub var inputData: AnyStruct?;
-
-        init(){
-            self.handle = nil;
-            self.inputData = nil;
-        }
-
-        access(contract) fun setExecution(handle: ((AnyStruct?): AnyStruct?), inputs: AnyStruct?){
-            self.handle = handle;
-            self.inputData = inputs;
-        }
-
-        access(contract) fun doExecute(): AnyStruct?{
-            let rst = self.handle!(self.inputData);
-            self.clear();
-            return rst
-        }
-
-        priv fun clear(){
-            self.handle = nil;
-            self.inputData = nil;
-        }
-    }
-
-    pub resource C_Proposal: C_ProposalFace{
-        priv let name: UInt128;
-        priv let t: Int;
-        priv let signers: [Address];
-        priv let signedAccount: [Address];
-
-        priv let ppInfo: C_ProposalInfo;
-
-        // Created only by contract
-        access(contract) init(threshole: Int, oName: UInt128){
-            self.t = threshole;
-            self.signers = [];
-            self.signedAccount = [];
-            self.name = oName;
-
-            self.ppInfo = MultiSignatureFactory.C_ProposalInfo();
-        }
-
-        pub fun getProposalInfo(): MultiSignatureFactory.C_ProposalInfo{
-            return self.ppInfo
-        }
-
-        // accessed only by AuthAccount and the contract
-        pub fun addSingers(signers: [Address]){
-            self.signers.appendAll(signers);
-        }
-
-        pub fun setExecution(ohandle: ((AnyStruct?): AnyStruct?), oinputs: AnyStruct?){
-            if (self.verify()){
-                self.ppInfo.setExecution(handle: ohandle, inputs: oinputs);
-            }
-            else{
-                panic("Un authorized!");
-            }
-        }
-
-        pub fun doExecute(): AnyStruct?{
-            return self.ppInfo.doExecute()
-        }
-
-        priv fun verify(): Bool{
-            if self.signedAccount.length >= self.t{
-                return true
-            }
-            else{
-                return false
-            }
-        }
-
-        // interface of `ProposalFace`
-        pub fun sign(signer: Address){
-            if (!self.signers.contains(signer)){
-                panic("Invalid signer address!");
-            }
-
-            let pubAcct = getAccount(signer);
-            let signerLink = pubAcct.getCapability<&{SignerFace}>(/public/signerLink);
-            if let signerRef = signerLink.borrow(){
-                if signerRef.isSigned(name: self.name){
-                    self.signedAccount.append(signer);
-                }
-            }
-        }
-
-        pub fun getName(): UInt128{
-            return self.name
-        }
-    }
-
-    // **
     // Proposal resource, users can bind an **resource** operation to it
     // And execute is after multi-signed
     // **
@@ -162,6 +55,14 @@ access(all) contract MultiSignatureFactory{
 
         access(contract) fun doExecute(): AnyStruct?{
             let execRef = self.handle.borrow();
+            //if (nil == execRef){
+            //    return panic("invalid handle!");
+            //}
+            //log("in real processing!");
+            //return nil
+            if (nil == self.inputData){
+                log("invalid data!");
+            }
             return execRef!.multiSignRscEXEC(inputs: self.inputData)
         }
     }
@@ -234,6 +135,112 @@ access(all) contract MultiSignatureFactory{
         }
     }
 
+    // **
+    // Proposal resource, users can bind an **contract** operation to it
+    // And execute is after multi-signed
+    // Maybe it's unnecessary for multi-sign operations of contracts, because there's not any direct authority control for contracts
+    // **
+    // pub resource interface C_ProposalFace{
+    //     pub fun sign(signer: Address);
+    //     pub fun getName(): UInt128;
+    //     pub fun getProposalInfo(): MultiSignatureFactory.C_ProposalInfo;
+    // }
+
+    // pub struct C_ProposalInfo{
+    //     priv var handle: ((AnyStruct?): AnyStruct?)?;
+    //     pub var inputData: AnyStruct?;
+
+    //     init(){
+    //         self.handle = nil;
+    //         self.inputData = nil;
+    //     }
+
+    //     access(contract) fun setExecution(handle: ((AnyStruct?): AnyStruct?), inputs: AnyStruct?){
+    //         self.handle = handle;
+    //         self.inputData = inputs;
+    //     }
+
+    //     access(contract) fun doExecute(): AnyStruct?{
+    //         let rst = self.handle!(self.inputData);
+    //         self.clear();
+    //         return rst
+    //     }
+
+    //     priv fun clear(){
+    //         self.handle = nil;
+    //         self.inputData = nil;
+    //     }
+    // }
+
+    // pub resource C_Proposal: C_ProposalFace{
+    //     priv let name: UInt128;
+    //     priv let t: Int;
+    //     priv let signers: [Address];
+    //     priv let signedAccount: [Address];
+
+    //     priv let ppInfo: C_ProposalInfo;
+
+    //     // Created only by contract
+    //     access(contract) init(threshole: Int, oName: UInt128){
+    //         self.t = threshole;
+    //         self.signers = [];
+    //         self.signedAccount = [];
+    //         self.name = oName;
+
+    //         self.ppInfo = MultiSignatureFactory.C_ProposalInfo();
+    //     }
+
+    //     pub fun getProposalInfo(): MultiSignatureFactory.C_ProposalInfo{
+    //         return self.ppInfo
+    //     }
+
+    //     // accessed only by AuthAccount and the contract
+    //     pub fun addSingers(signers: [Address]){
+    //         self.signers.appendAll(signers);
+    //     }
+
+    //     pub fun setExecution(ohandle: ((AnyStruct?): AnyStruct?), oinputs: AnyStruct?){
+    //         if (self.verify()){
+    //             self.ppInfo.setExecution(handle: ohandle, inputs: oinputs);
+    //         }
+    //         else{
+    //             panic("Un authorized!");
+    //         }
+    //     }
+
+    //     pub fun doExecute(): AnyStruct?{
+    //         return self.ppInfo.doExecute()
+    //     }
+
+    //     priv fun verify(): Bool{
+    //         if self.signedAccount.length >= self.t{
+    //             return true
+    //         }
+    //         else{
+    //             return false
+    //         }
+    //     }
+
+    //     // interface of `ProposalFace`
+    //     pub fun sign(signer: Address){
+    //         if (!self.signers.contains(signer)){
+    //             panic("Invalid signer address!");
+    //         }
+
+    //         let pubAcct = getAccount(signer);
+    //         let signerLink = pubAcct.getCapability<&{SignerFace}>(/public/signerLink);
+    //         if let signerRef = signerLink.borrow(){
+    //             if signerRef.isSigned(name: self.name){
+    //                 self.signedAccount.append(signer);
+    //             }
+    //         }
+    //     }
+
+    //     pub fun getName(): UInt128{
+    //         return self.name
+    //     }
+    // }
+
     // *********************************************
     // Functions in `MultiSignatureFactory` contract
     // *********************************************
@@ -254,12 +261,13 @@ access(all) contract MultiSignatureFactory{
 
     // **
     // For `C_Proposal`
+    // Maybe it's unnecessary for multi-sign operations of contracts
     // **
-    pub fun createC_Porposal(sign_threshole: Int): @C_Proposal{
-        let id = self.c_pp_id;
-        self.c_pp_id = self.c_pp_id + 1;
-        return <-create C_Proposal(threshole: sign_threshole, oName: id)
-    }
+    // pub fun createC_Porposal(sign_threshole: Int): @C_Proposal{
+    //     let id = self.c_pp_id;
+    //     self.c_pp_id = self.c_pp_id + 1;
+    //     return <-create C_Proposal(threshole: sign_threshole, oName: id)
+    // }
 
     // **
     // For `R_Proposal`

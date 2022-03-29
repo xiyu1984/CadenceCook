@@ -9,9 +9,23 @@ access(all) contract Example{
     }
 
     pub resource ExaMultiSign: MultiSignatureFactory.MultiSignRscEXEC{
-        access(contract) fun multiSignRscEXEC(inputs: AnyStruct?): AnyStruct?{
-            let md: MyData? = inputs as? MyData;
-            return md!
+
+        init(){
+            
         }
+
+        access(contract) fun multiSignRscEXEC(inputs: AnyStruct?): AnyStruct?{
+            // if (nil == inputs){
+            //     log("data failed!");
+            // }
+
+            // It's important to use `inputs!`, or else the downcast will be failed!
+            let md: MyData? = inputs! as? MyData;
+            return inputs
+        }
+    }
+
+    pub fun createExaMultiSign(): @ExaMultiSign{
+        return <- create ExaMultiSign()
     }
 }
