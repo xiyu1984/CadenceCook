@@ -1,6 +1,6 @@
 # A general Multi-Signature Mechanism on Flow
 
-This is the main branch.
+This is the branch for playground.
 
 ## Introduction
 ### Contracts
