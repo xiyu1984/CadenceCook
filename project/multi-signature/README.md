@@ -1,6 +1,7 @@
 # A general Multi-Signature Mechanism on Flow
 
-This branch is for flc version, the `flow ` command lines will be writen here later.
+
+This is the main branch. Development here and for fcl in the future.
 
 ## Introduction
 ### Contracts
