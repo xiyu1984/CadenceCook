@@ -1,5 +1,7 @@
 # A general Multi-Signature Mechanism on Flow
 
+This branch is for flc version, the `flow ` command lines will be writen here later.
+
 ## Introduction
 ### Contracts
 [multiSignature.cdc](https://github.com/xiyu1984/CadenceCook/blob/main/project/multi-signature/multiSignature.cdc) is the general multi-signature contract used to make any operation of user defined resources be restricted by multi-signature. 
