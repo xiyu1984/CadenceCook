@@ -11,8 +11,8 @@ transaction{
             if (nil != signerRef){
                 let pID = ppRef.getName();
                 signerRef!.sign(pName: pID);
-                // ppRef.sign(signer: acct.address, link: "signerLink");
-                ppRef.sign(signer: acct.address);
+                ppRef.sign(signer: acct.address, link: "signerLink");
+                // ppRef.sign(signer: acct.address);
                 log("address: ".concat(acct.address.toString()).concat(" signed!"))
             }
         }

@@ -1,6 +1,7 @@
 # A general Multi-Signature Mechanism on Flow
 
-This is the main branch.
+
+This is the main branch. Development here and for fcl in the future.
 
 ## Introduction
 ### Contracts
