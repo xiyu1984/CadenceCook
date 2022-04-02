@@ -34,7 +34,7 @@ access(all) contract MultiSignatureFactory{
     // **
 
     pub resource interface R_ProposalFace{
-        pub fun sign(signer: Address);
+        pub fun sign(signer: Address, link: String);
         pub fun getName(): UInt128;
         pub fun getProposalInfo(): MultiSignatureFactory.R_ProposalInfo;
     }
