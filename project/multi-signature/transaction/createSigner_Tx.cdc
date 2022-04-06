@@ -1,5 +1,5 @@
-import MultiSignatureFactory from 0x01
-import Example from 0x02
+import MultiSignatureFactory from 0x33a8abe2196c9e15
+// import Example from 0x33a8abe2196c9e15
 
 transaction{
     prepare(acct: AuthAccount) {

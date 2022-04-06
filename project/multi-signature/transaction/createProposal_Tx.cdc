@@ -1,5 +1,5 @@
-import MultiSignatureFactory from 0x01
-import Example from 0x02
+import MultiSignatureFactory from 0x33a8abe2196c9e15
+import Example from 0x33a8abe2196c9e15
 
 // This transaction is signed by another address, like 0x03
 transaction{
@@ -14,7 +14,7 @@ transaction{
         let myData = Example.MyData();
         let myPpinfo = MultiSignatureFactory.R_ProposalInfo(handle: execHandle, inputs: myData);
         myProposal.setExecution(resEXECinfo: myPpinfo);
-        myProposal.addSingers(signers: [0x01, 0x02]);
+        myProposal.addSingers(signers: [0x33a8abe2196c9e15, 0xa75346d2c919b743]);
 
         acct.save(<-myProposal, to: /storage/MyProposal);
         acct.link<&{MultiSignatureFactory.R_ProposalFace}>(/public/proposalFace, target: /storage/MyProposal);
