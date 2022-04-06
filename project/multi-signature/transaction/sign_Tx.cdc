@@ -1,10 +1,10 @@
-import MultiSignatureFactory from 0x01
-import Example from 0x02
+import MultiSignatureFactory from 0x33a8abe2196c9e15
+// import Example from 0x02
 
 transaction{
     prepare(acct: AuthAccount) {
 
-        let pubAcct = getAccount(0x03);
+        let pubAcct = getAccount(0xd77db11694592a2b);
         let ppLink = pubAcct.getCapability<&{MultiSignatureFactory.R_ProposalFace}>(/public/proposalFace);
         if let ppRef = ppLink.borrow() {
             let signerRef = acct.borrow<&MultiSignatureFactory.Signer>(from: /storage/mySigner);
