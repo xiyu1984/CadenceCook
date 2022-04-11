@@ -1,5 +1,6 @@
 access(all) contract SubmitAuthor{
     priv let id: UInt128;
+    // test field, add after remove
     priv let id2: UInt128;
 
     pub event uuidEvent(type: String, uuuuid: UInt64);
@@ -28,6 +29,7 @@ access(all) contract SubmitAuthor{
     // Submitter
     pub resource Submitter: SubmitterFace{
         priv var hookedContent: eContent?;
+        // test field, add after remove
         pub let id: UInt128;
 
         pub init(){
@@ -72,6 +74,7 @@ access(all) contract SubmitAuthor{
 
     // Acceptor's interface
     pub resource interface AcceptorFace{
+        // `oid` is the test field, add after remove
         pub fun AcceptContent(submitterAddr: Address, link: String, oid: UInt128);
     }
 
