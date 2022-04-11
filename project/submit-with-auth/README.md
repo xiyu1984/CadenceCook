@@ -55,7 +55,7 @@ flow accounts add-contract SubmitAuthor ../CadenceCook/project/submit-with-auth/
 ```
 flow transactions send ../CadenceCook/project/submit-with-auth/transaction/submit_Tx.cdc --signer testnet-subtwo -n testnet
 ```
-* **outputs**
+* **outputs**: the `uuid` of resources are **not change** before and after `remove` and `re-deploy`
 
 ![微信图片_20220412000719](https://user-images.githubusercontent.com/83746881/162783895-eef1c98b-de6c-4de1-9443-81d4af1485b7.png)
 ![微信图片_20220412000725](https://user-images.githubusercontent.com/83746881/162783908-e1ea2d95-1f88-476f-8dad-b85c3506919d.png)
