@@ -1,13 +1,15 @@
 access(all) contract SubmitAuthor{
     priv let id: UInt128;
+    // in resource contract `SubmitAuthor`
     // test field, add after remove
-    priv let id2: UInt128;
+    // priv let id2: UInt128;
 
     pub event uuidEvent(type: String, uuuuid: UInt64);
 
     pub init(){
         self.id = 100;
-        self.id2 = 200;
+        // in contract `SubmitAuthor`
+        // self.id2 = 200;
     }
     
     // example of content to be submitted
@@ -29,12 +31,14 @@ access(all) contract SubmitAuthor{
     // Submitter
     pub resource Submitter: SubmitterFace{
         priv var hookedContent: eContent?;
+        // in resource `Submitter`
         // test field, add after remove
-        pub let id: UInt128;
+        // pub let id: UInt128;
 
         pub init(){
             self.hookedContent = nil;
-            self.id = 100;
+            // in resource `Submitter`
+            // self.id = 100;
         }
 
         // the `oSubmitterAddr` must be the owner of this resource, or else `Acceptor` will receive an invalid submit
