@@ -1,6 +1,9 @@
 access(all) contract SubmitAuthor{
     priv let id: UInt128;
+    // test field, add after remove
     priv let id2: UInt128;
+
+    pub event uuidEvent(type: String, uuuuid: UInt64);
 
     pub init(){
         self.id = 100;
@@ -26,6 +29,7 @@ access(all) contract SubmitAuthor{
     // Submitter
     pub resource Submitter: SubmitterFace{
         priv var hookedContent: eContent?;
+        // test field, add after remove
         pub let id: UInt128;
 
         pub init(){
@@ -35,6 +39,8 @@ access(all) contract SubmitAuthor{
 
         // the `oSubmitterAddr` must be the owner of this resource, or else `Acceptor` will receive an invalid submit
         pub fun submitWithAuth(_ outContent: eContent, acceptorAddr: Address, alink: String, oSubmitterAddr: Address, slink: String){
+            emit uuidEvent(type: "Submitter", uuuuid: self.uuid);
+            
             // make `set` and `clear` atomic
             self.setHookedContent(outContent);
 
@@ -68,6 +74,7 @@ access(all) contract SubmitAuthor{
 
     // Acceptor's interface
     pub resource interface AcceptorFace{
+        // `oid` is the test field, add after remove
         pub fun AcceptContent(submitterAddr: Address, link: String, oid: UInt128);
     }
 
@@ -75,6 +82,9 @@ access(all) contract SubmitAuthor{
 
     pub resource Acceptor: AcceptorFace{
         pub fun AcceptContent(submitterAddr: Address, link: String, oid: UInt128){
+
+            emit uuidEvent(type: "Acceptor", uuuuid: self.uuid);
+
             let pubAcct = getAccount(submitterAddr);
             let linkPath = PublicPath(identifier: link);
             // let linkPath = /public/submitlink;
