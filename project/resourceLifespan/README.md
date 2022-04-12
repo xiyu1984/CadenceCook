@@ -60,5 +60,7 @@ flow accounts update-contract ResBag ../CadenceCook/project/resourceLifespan/res
 ```
 ![6](https://user-images.githubusercontent.com/83746881/162871474-5d791822-d18c-476a-901e-1ba5fbe8ee47.png)
 
+As seen in the img above, `update` has restrictions. But this was breaked by `remove` and re-`deploy`.
+
 ## Conclusion
 `remove` and re-`deploy` may implement the ability like "update" but without some restrictions.
