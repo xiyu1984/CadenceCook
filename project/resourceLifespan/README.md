@@ -46,8 +46,8 @@ flow accounts add-contract ResBag ../CadenceCook/project/resourceLifespan/resour
 
 
 * Visit Res1 again 
-# visit Res1
 ```
+# visit Res1
 flow transactions send ../CadenceCook/project/resourceLifespan/transaction/visitRes1_Tx.cdc --signer testnet-subone -n testnet
 ```
 ![5](https://user-images.githubusercontent.com/83746881/162871462-3d8c8cc8-9816-42a7-9a71-1e2769ae37db.png)
