@@ -1,9 +1,9 @@
 # Lifespan Test for `Resource`
 
 ## Introduction
-This is a test for the lifespan of a `resource`.
+This is a test for the lifespan of a `resource` on Flow.
 
-As we know for the [doc](https://docs.onflow.org/cadence/language/contract-updatability/#gatsby-focus-wrapper), contracts update has many restrictions.
+As we know from the [doc](https://docs.onflow.org/cadence/language/contract-updatability/#gatsby-focus-wrapper), contracts update has many restrictions.
 
 We found a more flexible way to do the "update", that is, by `remove` contract and re-`deploy` is.
 
