@@ -16,7 +16,8 @@ Details are as below：
 ```
 flow accounts add-contract ResBag ../CadenceCook/project/resourceLifespan/resourceBag.cdc -n testnet --signer testnet-account
 ```
-**img**
+![1](https://user-images.githubusercontent.com/83746881/162871394-0c509b7e-be36-41db-98fa-37e82ef81860.png)
+
 
 * create and visit Res1
 ```
@@ -26,19 +27,22 @@ flow transactions send ../CadenceCook/project/resourceLifespan/transaction/creat
 # visit Res1
 flow transactions send ../CadenceCook/project/resourceLifespan/transaction/visitRes1_Tx.cdc --signer testnet-subone -n testnet
 ```
-**img**
+![2](https://user-images.githubusercontent.com/83746881/162871420-07fd7a4a-bfbf-4047-8d30-ad16843ced8f.png)
+
 
 * Remove `contract ResBag`
 ```
 flow accounts remove-contract ResBag -n testnet --signer testnet-account
 ```
-**img**
+![3](https://user-images.githubusercontent.com/83746881/162871430-ab47d31e-41d3-407a-8357-0ec163a44562.png)
+
 
 * **Add** the field `priv let n: UInt128;` and **re-deploy** `contract ResBag`.
 ```
 flow accounts add-contract ResBag ../CadenceCook/project/resourceLifespan/resourceBag.cdc -n testnet --signer testnet-account
 ```
-**img**
+![4](https://user-images.githubusercontent.com/83746881/162871446-f2398e64-7cb3-4e37-a8cf-a287594595f8.png)
+
 
 
 * Visit Res1 again 
@@ -46,14 +50,15 @@ flow accounts add-contract ResBag ../CadenceCook/project/resourceLifespan/resour
 ```
 flow transactions send ../CadenceCook/project/resourceLifespan/transaction/visitRes1_Tx.cdc --signer testnet-subone -n testnet
 ```
-**img**
+![5](https://user-images.githubusercontent.com/83746881/162871462-3d8c8cc8-9816-42a7-9a71-1e2769ae37db.png)
+
 
 **Amazing**, we found the same `uuid`. But if we add another field (`priv let n2: UInt128;`) again to test update:
 * Add the field `priv let n2: UInt128;` and update:
 ```
 flow accounts update-contract ResBag ../CadenceCook/project/resourceLifespan/resourceBag.cdc -n testnet --signer testnet-account
 ```
-**img**
+![6](https://user-images.githubusercontent.com/83746881/162871474-5d791822-d18c-476a-901e-1ba5fbe8ee47.png)
 
 ## Conclusion
 `remove` and re-`deploy` may implement the ability like "update" but without some restrictions.
