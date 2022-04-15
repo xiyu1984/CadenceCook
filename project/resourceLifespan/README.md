@@ -1,9 +1,9 @@
 # Lifespan Test for `Resource`
 
 ## Introduction
-This is a test for the lifespan of a `resource`.
+This is a test for the lifespan of a `resource` on Flow.
 
-As we know for the [doc](https://docs.onflow.org/cadence/language/contract-updatability/#gatsby-focus-wrapper), contracts update has many restrictions.
+As we know from the [doc](https://docs.onflow.org/cadence/language/contract-updatability/#gatsby-focus-wrapper), contracts update has many restrictions.
 
 We found a more flexible way to do the "update", that is, by `remove` contract and re-`deploy` is.
 
@@ -59,6 +59,8 @@ flow transactions send ../CadenceCook/project/resourceLifespan/transaction/visit
 flow accounts update-contract ResBag ../CadenceCook/project/resourceLifespan/resourceBag.cdc -n testnet --signer testnet-account
 ```
 ![6](https://user-images.githubusercontent.com/83746881/162871474-5d791822-d18c-476a-901e-1ba5fbe8ee47.png)
+
+As seen in the img above, `update` has restrictions. But this was breaked by `remove` and re-`deploy`.
 
 ## Conclusion
 `remove` and re-`deploy` may implement the ability like "update" but without some restrictions.
