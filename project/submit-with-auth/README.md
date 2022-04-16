@@ -1,4 +1,4 @@
-# submit with authority
+# Authority Callback
 ## Introduction
 
 There is no `msg.sender` in flow([details](https://docs.onflow.org/cadence/msg-sender/#gatsby-focus-wrapper)). But in some situations, the 'message' receiver really need to know the souece of the 'message'. 
