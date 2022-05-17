@@ -13,6 +13,10 @@ We are applying for this grant to build our protocol stack on Flow, which will a
 ## Problem statement
 * **Target audience**: In the early stage, the main target audience is the dApp developers. With the development of Dante Protocol Stack, there will be several dApps based on it, so the ordinary users will have indirect access to Dante's services.
 * **Evidence for the need**: 
+    * since there are more blockchains than BTC, cross-chain is a topic on the agenda, whether it is a centralized solution, such as CEX, or decentralized solutions, such as various cross-chain bridges, all prove that. In the early days, cross-chain mainly focused on the Token, but as the block chain function and application scenera became richer, more comprehensive cross-chain requirements have been proposed. Currently, there are numbers of projects focusing on multi-chain interoperability, which have been recognized by the market, such as Axelar, Layerzero, and even ChainLink, which fully demonstrate the potential of this field.  
+    * The horizontal expansion of blockchain is an inevitable trend, which has been proved by the rise of sharding and Layer2. However, sharding and Layer2 can only solve the communication and collaboration problems between isomorphic chains.  But in fact, there are more heterogeneous chains in the Web3 world, and there is a greater market space and necessity to solve the communication and collaboration problems between them.  
+    * Apart from the observation at the macro level, we have also had in-depth communication with many DApp projects at the micro level. Many of them believe that cross-chain interoperability will bring better composability to DApps, especially for DeFi projects which were famous for composability, especially in today's increasingly obvious differentiation of each public chain.  The composability of multiple chains opens up more possibilities for them, and this has been recognized by many projects. 
+    * Flow's resource-oriented model allows for a new interpretation of digital asset ownership, for example, in the NFT use case, Flow demonstrates a capability that cannot be replaced by ERC721: the asset truly belongs to the individual, rather than relying on a smart contract to keep score. As we all know, smart contracts can be destroyed. We think this feature should be extended to the entire web3 world, as we found evidence in real life: we can have cash at our disposal from the bank, not because the bank failed and made it unusable.
 
 * Target: We will build the multi-chain protocol stack as well as its concrete implementation on Flow.
     * Firstly, Flow provides a resource-oriented programming paradigm, the implementation of the Dante protocol on Flow will be an independent Flow resource called a “multi-chain communication resource” for resources so that any resource on Flow could be accessible to many other chains in the whole Web3 world. 
@@ -147,7 +151,16 @@ Complete the Omnichain NFT and Swap product.
     * Order book based NFT swap in the Omnichain market.
 
 # Technology Team
-Shawn Z (Tech leader of Dante Network)
+Jason(CEO)
+* Post graduated from Shanghai Jiao Tong University
+* Major in software enginering
+* Over 10 years of working experience; senior practitioner in blockchain/information security
+* Responsible for participating in a number of national information security research projects
+* Head of node service provider
+* Experienced in operating nodes of many large projects
+* Rich experience in blockchain project incubating and operation
+
+Shawn Z (Tech leader)
 * Post graduated from University of Electronic Science and Technology of China
 * Major in Information Security
 * Expert in privacy computing, blockchain, and artificial intelligence
