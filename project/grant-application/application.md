@@ -64,7 +64,7 @@ In regular on-chain programming paradigms, the on-chain part of the protocol sta
 
 On Flow, things become interesting and special. The Dante protocol stack’s implementation on Flow is as follows: 
 
-![Flow](https://github.com/dantenetwork/Pitch-Deck/blob/main/images/Flow.png)
+![image](https://user-images.githubusercontent.com/83746881/168860348-8b43befb-c325-441f-8cd8-5670fb2e71a7.png)
 
 We will build a factory contract to manage the creation of the “Multi-chain Communication Resource”(abbreviated  “MCR”), which can be integrated into other resources to help them communicate with other chains. dApps resources or contracts can call the factory contract to generate an individual MCR for them, and use the instance of the ‘Sender’ resource to send messages to other chains or use the instance of the ‘Receiver’ resource to receive messages from others. The ‘Sender’ and 'Receiver’ instances are bound to a single dApp, but MCR instances in different DApps will not affect each other. Non-rigorously, this can be compared to encapsulating an individual dApp (with its contracts and resources) along with a concrete instance of MCR in a Docker container.
 
